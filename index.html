@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simulação de Catalogação - BID IMPORT</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    h2 {
+      color: #2980b9;
+      margin-top: 30px;
+      padding-left: 35px;
+    }
+
+    h3 {
+      color: #2980b9;
+      margin-top: 30px;
+    }
+
+    .produto {
+      background: #ecf0f1;
+      padding: 10px;
+      border-left: 5px solid #2980b9;
+      margin-bottom: 10px;
+    }
+
+    .pergunta {
+      margin: 20px 0 10px;
+      padding: 10px;
+      background: #fefefe;
+      border-left: 4px solid #27ae60;
+    }
+
+    textarea, input[type="text"] {
+      width: 100%;
+      height: auto;
+      margin-bottom: 15px;
+      resize: vertical;
+      padding: 8px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      height: 80px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin: 8px 0 5px;
+    }
+
+    .enviar-btn {
+      display: block;
+      margin: 30px auto 0;
+      padding: 12px 24px;
+      background-color: #25D366;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .enviar-btn:hover {
+      background-color: #1ebe5d;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📦 Simulação de Catalogação</h1>
+
+    <form id="catalogForm">
+      <label for="nome-candidato">🧾 Nome completo do candidato:</label>
+      <input type="text" id="nome-candidato" name="nome-candidato" required />
+
+      <h2>Situação Prática</h2>
+      <div class="produto">
+        <strong>Produto 1:</strong> Caixa com 10 unidades de “Mouse Gamer Para Jogo Led Rgb Óptico Usb Preto Ley-206”
+      </div>
+      <div class="produto">
+        <strong>Produto 2:</strong> Caixa com 8 unidades de “Carregador de celular tipo C, 25W, Marca K-Tech”<br/>
+        <em>Observação:</em> 4 carregadores são brancos e 4 são pretos.
+      </div>
+      <div class="produto">
+        <strong>Produto 3:</strong> Caixa lacrada com 1 unidade de “Balança digital de cozinha, Modelo SlimCook, Marca Kitchen+”
+      </div>
+
+      <h2>📋 Tarefas</h2>
+
+      <div class="pergunta">
+        <h3><strong>Identificação e Variação:</strong></h3>
+        <label for="identificacao-a">a) Qual(is) produto(s) exigem subdivisão em subitens? Justifique.</label>
+        <textarea id="identificacao-a" name="identificacao-a"></textarea>
+      </div>
+
+      <div class="pergunta">
+        <h3><strong>Contagem e Precauções:</strong></h3>
+        <label for="contagem-a">a) Mesmo com caixas identificadas com a quantidade, você deve recontar? Justifique.</label>
+        <textarea id="contagem-a" name="contagem-a"></textarea>
+      </div>
+
+      <div class="pergunta">
+        <h3><strong>Pesquisa Online:</strong></h3>
+        <label for="pesquisa-a">a) Qual(is) ferramentas você utilizou para buscar informações técnicas dos produtos?</label>
+        <textarea id="pesquisa-a" name="pesquisa-a"></textarea>
+
+        <label for="pesquisa-b">b) Quais cuidados deve ter para garantir que a informação encontrada é realmente do produto?</label>
+        <textarea id="pesquisa-b" name="pesquisa-b"></textarea>
+
+        <label for="pesquisa-c">c) Se o produto não contem na internet quando você pesquisar o que você faria?</label>
+        <textarea id="pesquisa-c" name="pesquisa-c"></textarea>
+      </div>
+
+      <div class="pergunta">
+        <h3><strong>Descrição:</strong></h3>
+        <label for="descricao-a">a) Como descreveria cada produto? Justifique.</label>
+        <textarea id="descricao-a" name="descricao-a"></textarea>
+
+        <label for="descricao-b">b) Quais são as informações necessárias do produto?</label>
+        <textarea id="descricao-b" name="descricao-b"></textarea>
+      </div>
+
+      <div class="pergunta">
+        <h3><strong>Foto:</strong></h3>
+        <label for="foto-a">a) Descreva como você tiraria fotos deste produto? Justifique.</label>
+        <textarea id="foto-a" name="foto-a"></textarea>
+
+        <label for="foto-b">b) Qual(is) ferramentas você utilizaria para editar a foto deste produto?</label>
+        <textarea id="foto-b" name="foto-b"></textarea>
+      </div>
+
+      <button type="button" class="enviar-btn" onclick="enviarWhatsApp()">📲 Enviar via WhatsApp</button>
+    </form>
+  </div>
+
+  <script>
+    function enviarWhatsApp() {
+      const perguntas = {
+        "identificacao-a": "a) Qual(is) produto(s) exigem subdivisão em subitens? Justifique.",
+        "contagem-a": "a) Mesmo com caixas identificadas com a quantidade, você deve recontar? Justifique.",
+        "pesquisa-a": "a) Qual(is) ferramentas você utilizou para buscar informações técnicas dos produtos?",
+        "pesquisa-b": "b) Quais cuidados deve ter para garantir que a informação encontrada é realmente do produto?",
+        "pesquisa-c": "c) Se o produto não contem na internet quando você pesquisar o que você faria?",
+        "descricao-a": "a) Como descreveria cada produto? Justifique.",
+        "descricao-b": "b) Quais são as informações necessárias do produto?",
+        "foto-a": "a) Descreva como você tiraria fotos deste produto? Justifique.",
+        "foto-b": "b) Qual(is) ferramentas você utilizaria para editar a foto deste produto?"
+      };
+
+      const form = document.getElementById('catalogForm');
+      const data = new FormData(form);
+      const nome = data.get("nome-candidato") || "Não informado";
+
+      let mensagem = `*📦 Respostas da Simulação de Catalogação*\n`;
+      mensagem += `👤 *Candidato:* ${nome}\n\n`;
+
+      for (const [key, value] of data.entries()) {
+        if (key !== "nome-candidato" && perguntas[key]) {
+          mensagem += `*${perguntas[key]}*\n${value.trim() || "_(sem resposta)_"}\n\n`;
+        }
+      }
+
+      const numeroWhatsApp = "+5519974273576"; 
+      const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`;
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
