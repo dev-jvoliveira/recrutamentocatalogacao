@@ -99,7 +99,7 @@
     }
 
     .pdf-btn:hover {
-      background-color: #1a252f;
+      background-color: #66727e;
     }
   </style>
 </head>
@@ -113,7 +113,7 @@
 
       <h2>Situação Prática</h2>
       <div class="produto">
-        <strong>Produto 1:</strong> Caixa com 10 unidades de “Mouse Gamer Para Jogo Led Rgb Óptico Usb Preto Ley-206”
+        <strong>Produto 1:</strong> Caixa com 10 unidades de “Mouse Led Rgb Óptico Usb Preto Ley-206”
       </div>
       <div class="produto">
         <strong>Produto 2:</strong> Caixa com 8 unidades de “Carregador de celular tipo C, 25W, Marca K-Tech”<br/>
@@ -145,7 +145,7 @@
         <label for="pesquisa-b">b) Quais cuidados deve ter para garantir que a informação encontrada é realmente do produto?</label>
         <textarea id="pesquisa-b" name="pesquisa-b"></textarea>
 
-        <label for="pesquisa-c">c) Se o produto não contem na internet quando você pesquisar o que você faria?</label>
+        <label for="pesquisa-c">c) Se você não encontrar o produto na internet, o que você fará?</label>
         <textarea id="pesquisa-c" name="pesquisa-c"></textarea>
       </div>
 
@@ -177,15 +177,15 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
     const perguntas = {
-      "identificacao-a": { categoria: "📂 Identificação e Variação:", texto: "a) Qual(is) produto(s) exigem subdivisão em subitens? Justifique." },
-      "contagem-a": { categoria: "📂 Contagem e Precauções:", texto: "a) Mesmo com caixas identificadas com a quantidade, você deve recontar? Justifique." },
-      "pesquisa-a": { categoria: "📂 Pesquisa Online:", texto: "a) Qual(is) ferramentas você utilizou para buscar informações técnicas dos produtos?" },
-      "pesquisa-b": { categoria: "📂 Pesquisa Online:", texto: "b) Quais cuidados deve ter para garantir que a informação encontrada é realmente do produto?" },
-      "pesquisa-c": { categoria: "📂 Pesquisa Online:", texto: "c) Se o produto não contem na internet quando você pesquisar o que você faria?" },
-      "descricao-a": { categoria: "📂 Descrição:", texto: "a) Como descreveria cada produto? Justifique." },
-      "descricao-b": { categoria: "📂 Descrição:", texto: "b) Quais são as informações necessárias do produto?" },
-      "foto-a": { categoria: "📂 Foto:", texto: "a) Descreva como você tiraria fotos deste produto? Justifique." },
-      "foto-b": { categoria: "📂 Foto:", texto: "b) Qual(is) ferramentas você utilizaria para editar a foto deste produto?" }
+      "identificacao-a": { categoria: " Identificação e Variação:", texto: "a) Qual(is) produto(s) exigem subdivisão em subitens? Justifique." },
+      "contagem-a": { categoria: " Contagem e Precauções:", texto: "a) Mesmo com caixas identificadas com a quantidade, você deve recontar? Justifique." },
+      "pesquisa-a": { categoria: " Pesquisa Online:", texto: "a) Qual(is) ferramentas você utilizou para buscar informações técnicas dos produtos?" },
+      "pesquisa-b": { categoria: " Pesquisa Online:", texto: "b) Quais cuidados deve ter para garantir que a informação encontrada é realmente do produto?" },
+      "pesquisa-c": { categoria: " Pesquisa Online:", texto: "c) Se o produto não contem na internet quando você pesquisar o que você faria?" },
+      "descricao-a": { categoria: " Descrição:", texto: "a) Como descreveria cada produto? Justifique." },
+      "descricao-b": { categoria: " Descrição:", texto: "b) Quais são as informações necessárias do produto?" },
+      "foto-a": { categoria: " Foto:", texto: "a) Descreva como você tiraria fotos deste produto? Justifique." },
+      "foto-b": { categoria: " Foto:", texto: "b) Qual(is) ferramentas você utilizaria para editar a foto deste produto?" }
     };
 
     function removerCaracteresEspeciais(texto) {
@@ -200,8 +200,8 @@
       const data = new FormData(form);
       const nome = data.get("nome-candidato") || "Não informado";
 
-      let mensagem = `*📦 Respostas da Simulação de Catalogação*\n`;
-      mensagem += `👤 *Candidato:* ${nome}\n\n`;
+      let mensagem = `* Respostas da Simulação de Catalogação*\n`;
+      mensagem += ` *Candidato:* ${nome}\n\n`;
 
       const grupos = {};
 
@@ -225,47 +225,49 @@
     }
 
     async function gerarPDF() {
-      const { jsPDF } = window.jspdf;
-      const form = document.getElementById('catalogForm');
-      const data = new FormData(form);
-      const nome = data.get("nome-candidato") || "Candidato";
+  const { jsPDF } = window.jspdf;
+  const form = document.getElementById('catalogForm');
+  const data = new FormData(form);
+  const nome = data.get("nome-candidato") || "Candidato";
+  const dataHora = new Date().toLocaleString("pt-BR");
 
-      let texto = `Respostas da Simulação de Catalogação\nCandidato: ${nome}\n\n`;
-      const grupos = {};
+  let texto = `Respostas da Simulação de Catalogação\nCandidato: ${nome}\nData e Hora: ${dataHora}\n\n`;
+  const grupos = {};
 
-      for (const [key, value] of data.entries()) {
-        if (key !== "nome-candidato" && perguntas[key]) {
-          const { categoria, texto: pergunta } = perguntas[key];
-          if (!grupos[categoria]) grupos[categoria] = [];
-          grupos[categoria].push(`${pergunta}\n${value.trim() || "(sem resposta)"}\n`);
-        }
-      }
-
-      for (const categoria in grupos) {
-        texto += `${categoria}\n`;
-        texto += grupos[categoria].join("\n");
-        texto += `\n`;
-      }
-
-      const doc = new jsPDF();
-      const linhas = texto.split("\n");
-      let y = 10;
-
-      doc.setFont("Helvetica", "normal");
-      doc.setFontSize(12);
-
-      linhas.forEach(linha => {
-        if (y > 280) {
-          doc.addPage();
-          y = 10;
-        }
-        doc.text(removerCaracteresEspeciais(linha), 10, y);
-        y += 8;
-      });
-
-      const nomeArquivo = nome.replace(/[^a-zA-Z0-9]/g, "_") || "respostas";
-      doc.save(`${nomeArquivo}_catalogacao.pdf`);
+  for (const [key, value] of data.entries()) {
+    if (key !== "nome-candidato" && perguntas[key]) {
+      const { categoria, texto: pergunta } = perguntas[key];
+      if (!grupos[categoria]) grupos[categoria] = [];
+      grupos[categoria].push(`${pergunta}\n${value.trim() || "(sem resposta)"}\n`);
     }
+  }
+
+  for (const categoria in grupos) {
+    texto += `${categoria}\n`;
+    texto += grupos[categoria].join("\n");
+    texto += `\n`;
+  }
+
+  const doc = new jsPDF();
+  const linhas = texto.split("\n");
+  let y = 10;
+
+  doc.setFont("Helvetica", "normal");
+  doc.setFontSize(12);
+
+  linhas.forEach(linha => {
+    if (y > 280) {
+      doc.addPage();
+      y = 10;
+    }
+    doc.text(removerCaracteresEspeciais(linha), 10, y);
+    y += 6; // espaçamento mais compacto
+  });
+
+  const nomeArquivo = nome.replace(/[^a-zA-Z0-9]/g, "_") || "respostas";
+  doc.save(`${nomeArquivo}_catalogacao.pdf`);
+}
+
   </script>
 </body>
 </html>
